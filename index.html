@@ -95,9 +95,9 @@ const ICON={
 const TABS=['과목','태그','요약','안내'];
 const CATK=D.cats.map(c=>c.k);
 const CAT=Object.fromEntries(D.cats.map(c=>[c.k,c]));
-let S={y:'all',scope:'req',cat:null,type:null,ev:null,q:'',weeks:24,tab:0};
-try{const w=+localStorage.getItem('weeks');if(w>=10&&w<=40)S.weeks=w;const t=+localStorage.getItem('tab');if(t>=0&&t<4)S.tab=t}catch(e){}
-const save=()=>{try{localStorage.setItem('weeks',S.weeks);localStorage.setItem('tab',S.tab)}catch(e){}};
+let S={y:'all',scope:'req',cat:null,type:null,ev:null,q:'',weeks:27,tab:0};
+try{const w=+localStorage.getItem('wk2');if(w>=10&&w<=40)S.weeks=w;const t=+localStorage.getItem('tab');if(t>=0&&t<4)S.tab=t}catch(e){}
+const save=()=>{try{localStorage.setItem('wk2',S.weeks);localStorage.setItem('tab',S.tab)}catch(e){}};
 const ALL=[...D.req.map(c=>({...c,src:'req',ys:[c.y]})),...D.opt.map(c=>({...c,src:'opt',cat:'학생 선택'}))];
 const f1=x=>(Math.round(x*10)/10).toFixed(1);
 const wk=h=>h/S.weeks;
@@ -183,7 +183,7 @@ function renderTags(){
 // ---------- 요약 탭 ----------
 function renderSum(){
  const y1=REQ(1),y2=REQ(2);
- const stepper=`<div class="step"><div><b>수업 주 수: ${S.weeks}주</b><br><span style="font-size:12.5px;color:var(--mut)">한 해 수업 주 수를 바꾸면 주당 시간이 다시 계산돼요</span></div><div class="btns"><button id="mn">−</button><button id="pl">+</button></div></div>`;
+ const stepper=`<div class="step"><div><b>수업 주 수: ${S.weeks}주</b><br><span style="font-size:12.5px;color:var(--mut)">기본값 27주는 2026-27 학사일정 기준이에요. 바꾸면 주당 시간이 다시 계산돼요 · <a class="lnk" id="rs">27주로 되돌리기</a></span></div><div class="btns"><button id="mn">−</button><button id="pl">+</button></div></div>`;
  const kpi=(y,l)=>`<div><small>${y}학년 주당 강의</small><b>${f1(wk(sum(l,'lec')))}h</b><br><em>연 ${sum(l,'lec')}h · ${sum(l,'ects')} ECTS</em></div>`;
  const rows=CATK.map(k=>{const a=y1.filter(c=>c.cat==k),b=y2.filter(c=>c.cat==k),t=sum(a,'ects')+sum(b,'ects'),o=D.orig[k];
   return `<tr><td>${k}</td><td>${sum(a,'ects')}</td><td>${sum(b,'ects')}</td><td>${t}</td><td class="${t==o?'ok':'bad'}">${o}${t==o?' ✓':' ?'}</td></tr>`}).join('');
@@ -204,6 +204,7 @@ function renderSum(){
  <table><tr><th>구분</th><th>1학년</th><th>2학년</th><th>합계</th><th>원문</th></tr>${rows}
  <tr><td><b>총계</b></td><td><b>${sum(y1,'ects')}</b></td><td><b>${sum(y2,'ects')}</b></td><td><b>${sum(y1,'ects')+sum(y2,'ects')}</b></td><td class="${sum(y1,'ects')==60&&sum(y2,'ects')==60?'ok':'bad'}">${sum(y1,'ects')==60&&sum(y2,'ects')==60?'60+60 ✓':'?'}</td></tr></table>
  <p class="note">원문 열은 원본 PDF(2026-07-30)에 적힌 구분별 합계예요.</p>`;
+ $('#rs').onclick=()=>{S.weeks=27;save();renderSum()};
  $('#mn').onclick=()=>{S.weeks=Math.max(10,S.weeks-1);save();renderSum()};
  $('#pl').onclick=()=>{S.weeks=Math.min(40,S.weeks+1);save();renderSum()}}
 
@@ -217,7 +218,14 @@ function renderInfo(){
  ${D.cats.map(c=>`<div class="card"><b>${c.k}</b><div class="it">${c.full}</div></div>`).join('')}
  <h3>계산 방식과 참고</h3>
  <div class="card" style="font-size:14px">
- <p style="margin:0 0 8px"><b>주당 강의 시간</b> = 강의시수(Ore di lezione) ÷ 수업 주 수. 수업 주 수는 PIMS 공식 학사일정에서 확인하지 못해 <b>2학기 × 12주 = 24주</b>로 가정한 값이고, 요약 탭에서 바꿀 수 있어요. 한 해 강의시수 기준이라 학기 단위 과목이면 실제 주당 시간은 더 커요.</p>
+ <p style="margin:0 0 8px"><b>주당 강의 시간</b> = 강의시수(Ore di lezione) ÷ 수업 주 수. 수업 주 수는 PIMS 2026-27 학사일정으로 계산해 <b>약 27주</b>(26.8주)를 기본값으로 썼어요. 요약 탭에서 바꿀 수 있어요. 강의시수가 학기 단위로 편성된 과목이면 실제 주당 시간은 더 커요.</p>
+ <table style="font-size:13px"><tr><th>수업 기간</th><th>주</th><th>휴일 제외</th></tr>
+ <tr><td>10/5 – 12/18</td><td>11</td><td>10.6</td></tr>
+ <tr><td>1/11 – 2/12</td><td>5</td><td>4.8</td></tr>
+ <tr><td>2/22 – 3/19</td><td>4</td><td>3.8</td></tr>
+ <tr><td>4/5 – 5/28</td><td>8</td><td>7.6</td></tr>
+ <tr><td><b>합계</b></td><td><b>28</b></td><td><b>26.8</b></td></tr></table>
+ <p class="note" style="margin:8px 0 14px">1학기(10/5–2/12) 약 15.4주, 2학기(2/22–5/28) 약 11.4주. 성탄 방학(12/21–1/8), 2/15–19 휴강, 부활절 방학(3/22–4/2)은 뺐고, 휴일 6일(11/2, 12/8, 2/11, 3/19, 5/6, 5/27)은 하루를 0.2주로 계산했어요. 2/8–12 겨울 시험 주는 수업이 이어지는 것으로 봤어요.</p>
  <p style="margin:0 0 8px">수업 형태 C·G·I·L과 평가 E·ID의 뜻은 PIMS 학사 안내서와 이탈리아 음악 교육 문서의 일반적 의미로 풀이한 것이고, 원본 표에는 범례가 없어요. G는 안내서에서 "그룹"으로 읽혀서 소그룹(Gruppo)으로 적었어요.</p>
  <p style="margin:0">학년 배치와 시수·ECTS는 원본 PDF(2026-07-30, 1학년/2학년 열)와 대조했어요. 선택 권장 과목의 학년도 PDF 열 위치로 확인했어요.</p></div>`}
 
