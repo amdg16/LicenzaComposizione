@@ -4,87 +4,235 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1d2b4f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="과목표">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>작곡 석사 과목표</title>
 <style>
-:root{--bg:#f6f5f2;--card:#fff;--ink:#1c1b19;--mut:#6b6860;--line:#e4e1da;--acc:#2f5d8a;--accbg:#e6eef6;--ok:#2e7d4f}
-@media (prefers-color-scheme:dark){:root{--bg:#141414;--card:#1e1e1e;--ink:#ecebe7;--mut:#9a978f;--line:#33322f;--acc:#7fb0e0;--accbg:#22303f;--ok:#6fcf97}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:0 16px calc(24px + env(safe-area-inset-bottom))}
-header{padding:20px 0 8px}
-h1{font-size:20px;margin:0 0 4px}
-.sub{color:var(--mut);font-size:13px}
-nav{position:sticky;top:0;background:var(--bg);padding:8px 0;display:flex;gap:6px;overflow-x:auto;z-index:2;border-bottom:1px solid var(--line)}
-nav button,.chips button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font-size:14px;white-space:nowrap;cursor:pointer}
-nav button.on,.chips button.on{background:var(--acc);border-color:var(--acc);color:#fff}
-@media (prefers-color-scheme:dark){nav button.on,.chips button.on{color:#0d1a26}}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
-input[type=search]{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;margin-top:12px}
+:root{--bg:#f3f1ec;--card:#fff;--ink:#1b2233;--mut:#6a6f7d;--line:#e3e0d8;--acc:#26457a;--accbg:#e7edf7;--teal:#1f6f78;--tealbg:#e1f1f2;--amb:#9a6a12;--ambbg:#f8edd6;--hd1:#1d2b4f;--hd2:#2d6a7a;--ok:#2e7d4f;--bad:#c0392b}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1218;--card:#1a1f2a;--ink:#eceae4;--mut:#99a0af;--line:#2b3140;--acc:#9bb8e8;--accbg:#232f47;--teal:#7fd0d8;--tealbg:#1d3338;--amb:#e8c06a;--ambbg:#3a3118;--ok:#6fcf97;--bad:#ff8a7a}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+header{background:linear-gradient(135deg,var(--hd1),var(--hd2));color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 16px}
+header h1{font-size:19px;margin:0;font-weight:700;letter-spacing:-.2px}
+header p{margin:3px 0 0;font-size:12.5px;opacity:.82}
+main{padding:0 14px}
+.bar{position:sticky;top:0;background:var(--bg);padding:10px 0 8px;z-index:3}
+input[type=search]{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;-webkit-appearance:none}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:2px;margin-top:6px}
+.seg button{flex:1;border:0;background:none;color:var(--mut);padding:5px 4px;border-radius:8px;font-size:14px;font-weight:600}
+.seg button.on{background:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.seg button.on{color:#0f1218}}
+.act{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.sumline{font-size:12.5px;color:var(--mut);margin-top:8px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
-.card .ko{font-weight:600}
-.card .it{color:var(--mut);font-size:13px;margin-top:2px}
-.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:12.5px}
-.tag{background:var(--accbg);color:var(--acc);padding:2px 9px;border-radius:999px}
-.tag.p{background:transparent;border:1px solid var(--line);color:var(--mut)}
-.hours{margin-top:8px;font-size:13px;color:var(--mut)}
-.note{margin-top:6px;font-size:12.5px;color:var(--mut)}
-h2{font-size:15px;margin:20px 0 0;color:var(--mut);font-weight:600}
-.sum{display:flex;justify-content:space-between;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:12px 0}
-.sum b{font-size:20px;display:block}
-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px;margin-top:12px}
-th,td{padding:9px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.ko{font-weight:650}
+.it{color:var(--mut);font-size:13px;margin-top:2px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+button.tg{border:1px solid transparent;border-radius:999px;padding:4px 10px;font-size:12.5px;font-family:inherit;line-height:1.3;text-align:left}
+button.tg i{font-style:normal;opacity:.75;margin-left:4px;font-size:11.5px}
+.tg.cat{background:var(--accbg);color:var(--acc)}
+.tg.type{background:var(--tealbg);color:var(--teal)}
+.tg.ev{background:var(--ambbg);color:var(--amb)}
+.tg.p{background:transparent;border-color:var(--line);color:var(--mut)}
+.tg.sel{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor;font-weight:700}
+.hrs{margin-top:9px;font-size:13px;color:var(--mut)}
+.wk{margin-top:6px;font-size:14px;font-weight:650;color:var(--ink)}
+.wk small{font-weight:400;color:var(--mut);font-size:12.5px}
+a.lnk{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+h2{font-size:14px;margin:20px 2px 0;color:var(--mut);font-weight:650;display:flex;justify-content:space-between;gap:8px}
+h2 span{font-weight:400;font-size:12.5px;text-align:right}
+h3{font-size:15px;margin:22px 2px 4px}
+section{display:none}section.on{display:block}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px;margin-top:8px}
+th,td{padding:9px 7px;text-align:center;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{text-align:left}
 th{color:var(--mut);font-weight:600;font-size:12.5px}
 tr:last-child td{border-bottom:0}
-.ok{color:var(--ok);font-weight:600}.bad{color:#c0392b;font-weight:600}
-.warn{font-size:12.5px;color:var(--mut);margin-top:12px}
-section{display:none}section.on{display:block}
+.ok{color:var(--ok);font-weight:700}.bad{color:var(--bad);font-weight:700}
+.note{font-size:12.5px;color:var(--mut);margin:10px 2px}
+.kpi{display:flex;gap:8px;margin-top:12px}
+.kpi div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.kpi small{color:var(--mut);font-size:12px;display:block}
+.kpi b{font-size:21px}
+.kpi em{font-style:normal;font-size:12.5px;color:var(--mut)}
+.step{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-top:12px}
+.step b{font-size:17px}
+.step .btns{display:flex;align-items:center;gap:12px}
+.step .btns button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:22px;line-height:1}
+.trow{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;width:100%;text-align:left;color:var(--ink);font:inherit}
+.trow .l{flex:1}.trow .l b{display:block}.trow .l span{color:var(--mut);font-size:12.5px}
+.trow .r{text-align:right;font-size:12.5px;color:var(--mut);white-space:nowrap}
+.trow .r b{display:block;color:var(--ink);font-size:15px}
+.chev{color:var(--mut);font-size:18px}
+nav{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:10}
+nav button{flex:1;border:0;background:none;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;padding:4px 0}
+nav button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--acc)}
+.empty{color:var(--mut);text-align:center;padding:30px 0}
 </style>
 </head>
 <body>
-<header><h1 id="t"></h1><div class="sub">탭을 눌러 필수 과목·ECTS·선택 과목을 볼 수 있어요</div></header>
-<nav id="nav"></nav>
+<header><h1>작곡 석사 과목표</h1><p>Licenza in Composizione · 2년 과정 · 2025/26학년도부터</p></header>
+<main>
 <section id="s0"></section><section id="s1"></section><section id="s2"></section><section id="s3"></section>
+</main>
+<nav id="nav"></nav>
 <script>
-const D={"title": "작곡 석사(Licenza) 2년 과정 — 2025/26학년도부터 (문서 날짜: 2026-07-30)", "req": [{"y": 1, "cat": "기초", "ko": "성음악사", "it": "Storia della musica sacra", "t": "C", "lec": 54, "study": 46, "tot": 100, "ects": 4, "ev": "E"}, {"y": 1, "cat": "기초", "ko": "전례·음악 편성 (석사)", "it": "Programmazione liturgico-musicale (licenza)", "t": "C", "lec": 18, "study": 32, "tot": 50, "ects": 2, "ev": "E"}, {"y": 1, "cat": "기초", "ko": "성악 앙상블 및 합창 레퍼토리 1", "it": "Musica d'insieme vocale e repertorio corale 1 (licenza)", "t": "L", "lec": 54, "study": 96, "tot": 150, "ects": 6, "ev": "ID"}, {"y": 2, "cat": "기초", "ko": "성악 앙상블 및 합창 레퍼토리 2", "it": "Musica d'insieme vocale e repertorio corale 2 (licenza)", "t": "L", "lec": 54, "study": 96, "tot": 150, "ects": 6, "ev": "ID"}, {"y": 1, "cat": "특성화", "ko": "작곡 1a (석사)", "it": "Composizione 1a (licenza)", "t": "I", "lec": 27, "study": 198, "tot": 225, "ects": 9, "ev": "E"}, {"y": 1, "cat": "특성화", "ko": "작곡 1b (석사)", "it": "Composizione 1b (licenza)", "t": "I", "lec": 18, "study": 132, "tot": 150, "ects": 6, "ev": "E"}, {"y": 1, "cat": "특성화", "ko": "편곡·관현악법 1", "it": "Strumentazione e orchestrazione 1", "t": "I", "lec": 27, "study": 273, "tot": 300, "ects": 12, "ev": "E"}, {"y": 1, "cat": "특성화", "ko": "스코어 축약·종합의 방법론과 실습", "it": "Metodologia e pratica della riduzione e sintesi della partitura", "t": "I", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E"}, {"y": 2, "cat": "특성화", "ko": "작곡 2a (석사)", "it": "Composizione 2a (licenza)", "t": "I", "lec": 27, "study": 198, "tot": 225, "ects": 9, "ev": "E"}, {"y": 2, "cat": "특성화", "ko": "작곡 2b (석사)", "it": "Composizione 2b (licenza)", "t": "I", "lec": 27, "study": 198, "tot": 225, "ects": 9, "ev": "E"}, {"y": 2, "cat": "특성화", "ko": "편곡·관현악법 2", "it": "Strumentazione e orchestrazione 2", "t": "I", "lec": 27, "study": 273, "tot": 300, "ects": 12, "ev": "E"}, {"y": 1, "cat": "통합·연관", "ko": "영상 음악", "it": "Musica applicata alle immagini", "t": "C", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E"}, {"y": 1, "cat": "통합·연관", "ko": "음악 분석 1, 작곡 전공 (석사)", "it": "Analisi musicale 1, indirizzo Composizione (licenza)", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 1, "cat": "통합·연관", "ko": "음악 미학 1", "it": "Estetica della musica 1", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 2, "cat": "통합·연관", "ko": "음악 분석 2, 작곡 전공 (석사)", "it": "Analisi musicale 2, indirizzo Composizione (licenza)", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 2, "cat": "통합·연관", "ko": "음악 미학 2", "it": "Estetica della musica 2", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 1, "cat": "기타", "ko": "폴리포니아 1 (석사)", "it": "Polifonia 1 (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID"}, {"y": 1, "cat": "학생 선택", "ko": "학생 선택 활동 (1학년)", "it": "Attività formative a scelta dello studente", "t": "", "lec": null, "study": null, "tot": 75, "ects": 3, "ev": ""}, {"y": 2, "cat": "학생 선택", "ko": "학생 선택 활동 (2학년)", "it": "Attività formative a scelta dello studente", "t": "", "lec": null, "study": null, "tot": 150, "ects": 6, "ev": ""}, {"y": 1, "cat": "졸업·이탈리아어", "ko": "외국인을 위한 이탈리아어", "it": "Lingua italiana per stranieri", "t": "L", "lec": 36, "study": 14, "tot": 50, "ects": 2, "ev": "E"}, {"y": 2, "cat": "졸업·이탈리아어", "ko": "졸업 시험", "it": "Prova finale", "t": "", "lec": null, "study": null, "tot": 250, "ects": 10, "ev": "ID"}], "opt": [{"st": "현재 개설", "ko": "폴리포니아 2 (석사)", "it": "Polifonia 2 (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID", "note": ""}, {"st": "현재 개설", "ko": "폴리포니아 1 – 프로젝트 (석사)", "it": "Polifonia 1 – progetti (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID", "note": ""}, {"st": "현재 개설", "ko": "폴리포니아 1 또는 2 – 프로젝트 (석사)", "it": "Polifonia 1 o 2 - progetti (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID", "note": ""}, {"st": "현재 개설", "ko": "음향학·음악 심리음향학", "it": "Acustica e psicoacustica musicale", "t": "C", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E", "note": "1·2학년 모두 표기"}, {"st": "현재 개설", "ko": "오르간 실습 1", "it": "Pratica organistica 1", "t": "I", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "note": ""}, {"st": "현재 개설", "ko": "음악 고문서학 1", "it": "Paleografia musicale 1", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "note": ""}, {"st": "현재 개설", "ko": "음악극사 1", "it": "Storia del teatro musicale 1", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E", "note": ""}, {"st": "현재 개설", "ko": "전례 속의 시편", "it": "Salmi nella liturgia", "t": "C", "lec": 18, "study": 32, "tot": 50, "ects": 2, "ev": "E", "note": "1·2학년 모두 표기"}, {"st": "현재 개설", "ko": "그리스도교 전례 텍스트: 찬가", "it": "Testi liturgici cristiani: Innodia", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "note": ""}, {"st": "현재 개설", "ko": "그리스도교 전례 텍스트: 트로푸스와 세쿠엔치아", "it": "Testi liturgici cristiani: Tropi e Sequenze", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "note": ""}, {"st": "현재 개설", "ko": "음악극 작법", "it": "Drammaturgia musicale", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "note": ""}, {"st": "개설 가능", "ko": "현대음악 기보법", "it": "Semiografia della musica contemporanea", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E", "note": ""}, {"st": "개설 가능", "ko": "음악과 가상 구현 1 또는 2", "it": "Musica e realizzazione virtuale 1 o 2", "t": "L", "lec": 54, "study": 46, "tot": 100, "ects": 4, "ev": "ID", "note": ""}, {"st": "개설 가능", "ko": "성음악을 위한 디지털 커뮤니케이션", "it": "Comunicazione digitale per la musica sacra", "t": "C", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E", "note": "1·2학년 모두 표기"}, {"st": "개설 가능", "ko": "녹음·오디오 후반작업 기술", "it": "Tecnologie della ripresa e della post-produzione audio", "t": "C", "lec": 18, "study": 32, "tot": 50, "ects": 2, "ev": "E", "note": "1·2학년 모두 표기"}], "orig": {"기초": 18, "특성화": 60, "통합·연관": 19, "기타": 2, "학생 선택": 9, "졸업·이탈리아어": 12}, "abbr": [["C", "강의 (collettivo)"], ["G", "소그룹 (gruppo)"], ["I", "개인 레슨 (individuale)"], ["L", "실습·워크숍 (laboratorio)"], ["E", "시험 (esame)"], ["ID", "이수 판정 (idoneità, 합격/불합격)"], ["ECTS", "유럽 학점"], ["강의 비율", "총시수 대비 강의시수"]]};
+const D={"req": [{"y": 1, "cat": "기초", "ko": "성음악사", "it": "Storia della musica sacra", "t": "C", "lec": 54, "study": 46, "tot": 100, "ects": 4, "ev": "E"}, {"y": 1, "cat": "기초", "ko": "전례·음악 편성 (석사)", "it": "Programmazione liturgico-musicale (licenza)", "t": "C", "lec": 18, "study": 32, "tot": 50, "ects": 2, "ev": "E"}, {"y": 1, "cat": "기초", "ko": "성악 앙상블 및 합창 레퍼토리 1", "it": "Musica d'insieme vocale e repertorio corale 1 (licenza)", "t": "L", "lec": 54, "study": 96, "tot": 150, "ects": 6, "ev": "ID"}, {"y": 2, "cat": "기초", "ko": "성악 앙상블 및 합창 레퍼토리 2", "it": "Musica d'insieme vocale e repertorio corale 2 (licenza)", "t": "L", "lec": 54, "study": 96, "tot": 150, "ects": 6, "ev": "ID"}, {"y": 1, "cat": "특성화", "ko": "작곡 1a (석사)", "it": "Composizione 1a (licenza)", "t": "I", "lec": 27, "study": 198, "tot": 225, "ects": 9, "ev": "E"}, {"y": 1, "cat": "특성화", "ko": "작곡 1b (석사)", "it": "Composizione 1b (licenza)", "t": "I", "lec": 18, "study": 132, "tot": 150, "ects": 6, "ev": "E"}, {"y": 1, "cat": "특성화", "ko": "편곡·관현악법 1", "it": "Strumentazione e orchestrazione 1", "t": "I", "lec": 27, "study": 273, "tot": 300, "ects": 12, "ev": "E"}, {"y": 1, "cat": "특성화", "ko": "스코어 축약·종합의 방법론과 실습", "it": "Metodologia e pratica della riduzione e sintesi della partitura", "t": "I", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E"}, {"y": 2, "cat": "특성화", "ko": "작곡 2a (석사)", "it": "Composizione 2a (licenza)", "t": "I", "lec": 27, "study": 198, "tot": 225, "ects": 9, "ev": "E"}, {"y": 2, "cat": "특성화", "ko": "작곡 2b (석사)", "it": "Composizione 2b (licenza)", "t": "I", "lec": 27, "study": 198, "tot": 225, "ects": 9, "ev": "E"}, {"y": 2, "cat": "특성화", "ko": "편곡·관현악법 2", "it": "Strumentazione e orchestrazione 2", "t": "I", "lec": 27, "study": 273, "tot": 300, "ects": 12, "ev": "E"}, {"y": 1, "cat": "통합·연관", "ko": "영상 음악", "it": "Musica applicata alle immagini", "t": "C", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E"}, {"y": 1, "cat": "통합·연관", "ko": "음악 분석 1, 작곡 전공 (석사)", "it": "Analisi musicale 1, indirizzo Composizione (licenza)", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 1, "cat": "통합·연관", "ko": "음악 미학 1", "it": "Estetica della musica 1", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 2, "cat": "통합·연관", "ko": "음악 분석 2, 작곡 전공 (석사)", "it": "Analisi musicale 2, indirizzo Composizione (licenza)", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 2, "cat": "통합·연관", "ko": "음악 미학 2", "it": "Estetica della musica 2", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E"}, {"y": 1, "cat": "기타", "ko": "폴리포니아 1 (석사)", "it": "Polifonia 1 (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID"}, {"y": 1, "cat": "학생 선택", "ko": "학생 선택 활동 (1학년)", "it": "Attività formative a scelta dello studente", "t": "", "lec": null, "study": null, "tot": 75, "ects": 3, "ev": ""}, {"y": 2, "cat": "학생 선택", "ko": "학생 선택 활동 (2학년)", "it": "Attività formative a scelta dello studente", "t": "", "lec": null, "study": null, "tot": 150, "ects": 6, "ev": ""}, {"y": 1, "cat": "졸업·이탈리아어", "ko": "외국인을 위한 이탈리아어", "it": "Lingua italiana per stranieri", "t": "L", "lec": 36, "study": 14, "tot": 50, "ects": 2, "ev": "E"}, {"y": 2, "cat": "졸업·이탈리아어", "ko": "졸업 시험", "it": "Prova finale", "t": "", "lec": null, "study": null, "tot": 250, "ects": 10, "ev": "ID"}], "opt": [{"st": "현재 개설", "ko": "폴리포니아 2 (석사)", "it": "Polifonia 2 (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID", "ys": [2], "note": ""}, {"st": "현재 개설", "ko": "폴리포니아 1 – 프로젝트 (석사)", "it": "Polifonia 1 – progetti (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID", "ys": [1], "note": ""}, {"st": "현재 개설", "ko": "폴리포니아 1 또는 2 – 프로젝트 (석사)", "it": "Polifonia 1 o 2 - progetti (licenza)", "t": "L", "lec": 27, "study": 23, "tot": 50, "ects": 2, "ev": "ID", "ys": [2], "note": ""}, {"st": "현재 개설", "ko": "음향학·음악 심리음향학", "it": "Acustica e psicoacustica musicale", "t": "C", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E", "ys": [1, 2], "note": ""}, {"st": "현재 개설", "ko": "오르간 실습 1", "it": "Pratica organistica 1", "t": "I", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "ys": [2], "note": ""}, {"st": "현재 개설", "ko": "음악 고문서학 1", "it": "Paleografia musicale 1", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "ys": [2], "note": ""}, {"st": "현재 개설", "ko": "음악극사 1", "it": "Storia del teatro musicale 1", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E", "ys": [2], "note": ""}, {"st": "현재 개설", "ko": "전례 속의 시편", "it": "Salmi nella liturgia", "t": "C", "lec": 18, "study": 32, "tot": 50, "ects": 2, "ev": "E", "ys": [1, 2], "note": ""}, {"st": "현재 개설", "ko": "그리스도교 전례 텍스트: 찬가", "it": "Testi liturgici cristiani: Innodia", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "ys": [2], "note": ""}, {"st": "현재 개설", "ko": "그리스도교 전례 텍스트: 트로푸스와 세쿠엔치아", "it": "Testi liturgici cristiani: Tropi e Sequenze", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "ys": [2], "note": ""}, {"st": "현재 개설", "ko": "음악극 작법", "it": "Drammaturgia musicale", "t": "G", "lec": 27, "study": 123, "tot": 150, "ects": 6, "ev": "E", "ys": [2], "note": ""}, {"st": "개설 가능", "ko": "현대음악 기보법", "it": "Semiografia della musica contemporanea", "t": "C", "lec": 27, "study": 73, "tot": 100, "ects": 4, "ev": "E", "ys": [2], "note": ""}, {"st": "개설 가능", "ko": "음악과 가상 구현 1 또는 2", "it": "Musica e realizzazione virtuale 1 o 2", "t": "L", "lec": 54, "study": 46, "tot": 100, "ects": 4, "ev": "ID", "ys": [2], "note": ""}, {"st": "개설 가능", "ko": "성음악을 위한 디지털 커뮤니케이션", "it": "Comunicazione digitale per la musica sacra", "t": "C", "lec": 18, "study": 57, "tot": 75, "ects": 3, "ev": "E", "ys": [1, 2], "note": ""}, {"st": "개설 가능", "ko": "녹음·오디오 후반작업 기술", "it": "Tecnologie della ripresa e della post-produzione audio", "t": "C", "lec": 18, "study": 32, "tot": 50, "ects": 2, "ev": "E", "ys": [1, 2], "note": ""}], "orig": {"기초": 18, "특성화": 60, "통합·연관": 19, "기타": 2, "학생 선택": 9, "졸업·이탈리아어": 12}, "cats": [{"k": "기초", "it": "Formazione di base", "full": "Attività formative relative alla formazione di base"}, {"k": "특성화", "it": "Caratterizzanti", "full": "Attività formative caratterizzanti"}, {"k": "통합·연관", "it": "Integrative o affini", "full": "Attività formative integrative o affini"}, {"k": "기타", "it": "Ulteriori", "full": "Attività formative ulteriori"}, {"k": "학생 선택", "it": "A scelta dello studente", "full": "Attività formative a scelta dello studente"}, {"k": "졸업·이탈리아어", "it": "Prova finale e lingua italiana", "full": "Attività formative relative alla prova finale e alla conoscenza della lingua italiana"}], "types": {"C": {"ko": "강의", "it": "Collettivo"}, "G": {"ko": "소그룹", "it": "Gruppo"}, "I": {"ko": "개인 레슨", "it": "Individuale"}, "L": {"ko": "실습·워크숍", "it": "Laboratorio"}}, "evals": {"E": {"ko": "시험", "it": "Esame"}, "ID": {"ko": "이수 판정", "it": "Idoneità"}}};
 const $=s=>document.querySelector(s);
-const TY={C:'강의',G:'소그룹',I:'개인 레슨',L:'실습·워크숍'},EV={E:'시험',ID:'이수 판정'};
-document.title='작곡 석사 과목표';$('#t').textContent=D.title;
-const tabs=['필수 과목','ECTS 요약','선택 권장','약어'];
-tabs.forEach((n,i)=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>show(i);$('#nav').appendChild(b)});
-function show(i){document.querySelectorAll('section').forEach((s,j)=>s.classList.toggle('on',i==j));document.querySelectorAll('nav button').forEach((b,j)=>b.classList.toggle('on',i==j));try{localStorage.setItem('tab',i)}catch(e){}scrollTo(0,0)}
+const ICON={
+ 0:'<svg viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r=".8"/><circle cx="4" cy="12" r=".8"/><circle cx="4" cy="18" r=".8"/></svg>',
+ 1:'<svg viewBox="0 0 24 24"><path d="M3 12.5V4h8.5L21 13.5 13.5 21z"/><circle cx="8" cy="9" r="1.2"/></svg>',
+ 2:'<svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+ 3:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>'};
+const TABS=['과목','태그','요약','안내'];
+const CATK=D.cats.map(c=>c.k);
+const CAT=Object.fromEntries(D.cats.map(c=>[c.k,c]));
+let S={y:'all',scope:'req',cat:null,type:null,ev:null,q:'',weeks:24,tab:0};
+try{const w=+localStorage.getItem('weeks');if(w>=10&&w<=40)S.weeks=w;const t=+localStorage.getItem('tab');if(t>=0&&t<4)S.tab=t}catch(e){}
+const save=()=>{try{localStorage.setItem('weeks',S.weeks);localStorage.setItem('tab',S.tab)}catch(e){}};
+const ALL=[...D.req.map(c=>({...c,src:'req',ys:[c.y]})),...D.opt.map(c=>({...c,src:'opt',cat:'학생 선택'}))];
+const f1=x=>(Math.round(x*10)/10).toFixed(1);
+const wk=h=>h/S.weeks;
+const sum=(l,k)=>l.reduce((a,c)=>a+(c[k]||0),0);
+const REQ=y=>D.req.filter(c=>c.y==y);
+
+// ---------- 탭 ----------
+D.cats; TABS.forEach((n,i)=>{const b=document.createElement('button');b.innerHTML=ICON[i]+n;b.onclick=()=>go(i);$('#nav').appendChild(b)});
+function go(i){S.tab=i;save();document.querySelectorAll('section').forEach((s,j)=>s.classList.toggle('on',i==j));document.querySelectorAll('nav button').forEach((b,j)=>b.classList.toggle('on',i==j));render();scrollTo(0,0)}
+
+// ---------- 카드 ----------
+function tagBtn(kind,key,ko,it,extra=''){
+ const sel=S[kind]===key?' sel':'';
+ return `<button class="tg ${kind}${sel}" data-k="${kind}" data-v="${key}">${ko}<i>${it}</i></button>`}
 function card(c){
- const tags=[];
- if(c.t)tags.push(`<span class="tag">${TY[c.t]||c.t}</span>`);
- tags.push(`<span class="tag">${c.ects} ECTS</span>`);
- if(c.ev)tags.push(`<span class="tag p">${EV[c.ev]||c.ev}</span>`);
- if(c.cat)tags.push(`<span class="tag p">${c.cat}</span>`);
- const h=c.lec!=null?`강의 ${c.lec}h + 학습 ${c.study}h = 총 ${c.tot}h (강의 ${Math.round(c.lec/c.tot*100)}%)`:`총 ${c.tot}h`;
- return `<div class="card"><div class="ko">${c.ko}</div><div class="it">${c.it}</div><div class="meta">${tags.join('')}</div><div class="hours">${h}</div>${c.note?`<div class="note">${c.note}</div>`:''}</div>`}
-// req
-let fy='all',q='';
-function renderReq(){
- const list=D.req.filter(c=>(fy=='all'||c.y==fy)&&(c.ko+c.it).toLowerCase().includes(q));
+ const tg=[];
+ if(c.t)tg.push(tagBtn('type',c.t,D.types[c.t].ko,D.types[c.t].it));
+ tg.push(tagBtn('cat',c.cat,c.cat,CAT[c.cat].it));
+ if(c.ev)tg.push(tagBtn('ev',c.ev,D.evals[c.ev].ko,D.evals[c.ev].it));
+ tg.push(`<span class="tg p" style="cursor:default">${c.ects} ECTS</span>`);
+ if(c.src=='opt')tg.push(`<span class="tg p" style="cursor:default">${c.ys.length==2?'1·2학년':c.ys[0]+'학년'} · ${c.st}</span>`);
+ let h,w='';
+ if(c.lec!=null){
+  h=`강의 ${c.lec}h + 학습 ${c.study}h = 총 ${c.tot}h · 강의 ${Math.round(c.lec/c.tot*100)}%`;
+  w=`<div class="wk">주당 강의 ≈ ${f1(wk(c.lec))}h <small>· <a class="lnk" data-go="2">${S.weeks}주 기준</a></small></div>`;
+ }else h=`총 ${c.tot}h <small>(강의시수 표기 없음)</small>`;
+ return `<div class="card"><div class="ko">${c.ko}</div><div class="it">${c.it}</div><div class="meta">${tg.join('')}</div><div class="hrs">${h}</div>${w}</div>`}
+
+// ---------- 과목 탭 ----------
+function match(c){
+ if(S.scope!='all'&&c.src!=S.scope)return false;
+ if(S.y!='all'&&!c.ys.includes(+S.y))return false;
+ if(S.cat&&c.cat!==S.cat)return false;
+ if(S.type&&c.t!==S.type)return false;
+ if(S.ev&&c.ev!==S.ev)return false;
+ if(S.q&&!(c.ko+' '+c.it).toLowerCase().includes(S.q))return false;
+ return true}
+function chips(){
+ const a=[];
+ if(S.cat)a.push(['cat',S.cat+' · '+CAT[S.cat].it]);
+ if(S.type)a.push(['type',D.types[S.type].ko+' · '+D.types[S.type].it]);
+ if(S.ev)a.push(['ev',D.evals[S.ev].ko+' · '+D.evals[S.ev].it]);
+ if(!a.length)return '';
+ return a.map(([k,t])=>`<button class="tg ${k} sel" data-clr="${k}">${t} ✕</button>`).join('')+(a.length>1?'<button class="tg p" data-clr="all">모두 해제</button>':'')}
+function seg(id,opts,cur){return `<div class="seg" id="${id}">${opts.map(([v,n])=>`<button data-v="${v}" class="${cur==v?'on':''}">${n}</button>`).join('')}</div>`}
+function renderCourses(){
+ const root=$('#s0');
+ if(!root.dataset.built){
+  root.innerHTML=`<div class="bar"><input type="search" id="q" placeholder="과목 검색 (한국어·이탈리아어)" enterkeyhint="search"><div id="scope"></div><div id="yr"></div><div class="act" id="act"></div><div class="sumline" id="sl"></div></div><div id="list"></div>`;
+  $('#q').oninput=e=>{S.q=e.target.value.trim().toLowerCase();renderCourses()};
+  root.dataset.built=1}
+ $('#scope').innerHTML=seg('sc',[['req','필수'],['opt','선택 권장'],['all','전체']],S.scope);
+ $('#yr').innerHTML=seg('yy',[['all','전체 학년'],['1','1학년'],['2','2학년']],S.y);
+ $('#scope').onclick=e=>{const b=e.target.closest('button');if(b){S.scope=b.dataset.v;renderCourses()}};
+ $('#yr').onclick=e=>{const b=e.target.closest('button');if(b){S.y=b.dataset.v;renderCourses()}};
+ $('#act').innerHTML=chips();
+ const l=ALL.filter(match).sort((a,b)=>CATK.indexOf(a.cat)-CATK.indexOf(b.cat));
+ const groups=[];
+ [1,2].forEach(y=>groups.push([`${y}학년 필수`,l.filter(c=>c.src=='req'&&c.ys[0]==y),y]));
+ ['현재 개설','개설 가능'].forEach(s=>groups.push([`선택 권장 · ${s}`,l.filter(c=>c.src=='opt'&&c.st==s),0]));
  let out='';
- [1,2].forEach(y=>{const l=list.filter(c=>c.y==y);if(!l.length)return;
-  out+=`<h2>${y}학년 · ${l.reduce((a,c)=>a+c.ects,0)} ECTS</h2>`+l.map(card).join('')});
- $('#list').innerHTML=out||'<p class="sub">결과 없음</p>'}
-$('#s0').innerHTML=`<input type="search" id="q" placeholder="과목 검색 (한국어·이탈리아어)"><div class="chips" id="fy"></div><div id="list"></div>`;
-[['all','전체'],[1,'1학년'],[2,'2학년']].forEach(([v,n])=>{const b=document.createElement('button');b.textContent=n;b.className=v==fy?'on':'';b.onclick=()=>{fy=v;document.querySelectorAll('#fy button').forEach(x=>x.classList.toggle('on',x===b));renderReq()};$('#fy').appendChild(b)});
-$('#q').oninput=e=>{q=e.target.value.trim().toLowerCase();renderReq()};
-renderReq();
-// ects
-const cats=Object.keys(D.orig);
-const sm=(y,c)=>D.req.filter(r=>r.cat==c&&(y==0||r.y==y)).reduce((a,r)=>a+r.ects,0);
-const y1=D.req.filter(r=>r.y==1).reduce((a,r)=>a+r.ects,0),y2=D.req.filter(r=>r.y==2).reduce((a,r)=>a+r.ects,0);
-$('#s1').innerHTML=`<div class="sum"><div><span class="sub">1학년</span><b>${y1}</b></div><div><span class="sub">2학년</span><b>${y2}</b></div><div><span class="sub">합계</span><b>${y1+y2}</b></div></div>
-<table><tr><th>구분</th><th>1학년</th><th>2학년</th><th>합계</th><th>원문</th></tr>${cats.map(c=>{const t=sm(0,c),o=D.orig[c];return `<tr><td>${c}</td><td>${sm(1,c)}</td><td>${sm(2,c)}</td><td>${t}</td><td class="${t==o?'ok':'bad'}">${o}${t==o?' ✓':' ?'}</td></tr>`}).join('')}</table>
-<p class="warn">학년 배치는 학점 합계(60+60)에 맞춰 정리한 것이라, 원본 PDF 표와 대조해 확인하세요. 원문 열은 PDF에 적힌 구분별 합계입니다.</p>`;
-// opt
-$('#s2').innerHTML=`<p class="sub" style="margin-top:12px">학생 선택 활동(1학년 3 + 2학년 6 ECTS)에 쓸 수 있는 권장 과목입니다. 한 번만 적힌 과목의 학년은 원본 PDF에서 확인이 필요합니다.</p>`+
-['현재 개설','개설 가능'].map(s=>`<h2>${s}</h2>`+D.opt.filter(c=>c.st==s).map(card).join('')).join('');
-// abbr
-$('#s3').innerHTML=`<div style="margin-top:12px">`+D.abbr.map(([a,b])=>`<div class="card"><b>${a}</b> — ${b}</div>`).join('')+`</div><p class="warn">원문에 범례가 없어 이탈리아 음악 교육 문서의 일반적 의미로 보충한 것입니다.</p>`;
-let t=0;try{t=+localStorage.getItem('tab')||0}catch(e){}show(t);
+ groups.forEach(([n,g,y])=>{if(!g.length)return;
+  const lec=sum(g,'lec');
+  out+=`<h2>${n}<span>${g.length}과목 · ${sum(g,'ects')} ECTS${y&&lec?` · 주당 강의 ${f1(wk(lec))}h`:''}</span></h2>`+g.map(card).join('')});
+ $('#list').innerHTML=out||'<div class="empty">조건에 맞는 과목이 없어요</div>';
+ $('#sl').textContent=`${l.length}과목 · ${sum(l,'ects')} ECTS · 카드의 태그를 누르면 필터돼요`}
+
+// ---------- 태그 탭 ----------
+function tagRows(items,kind,keyOf){
+ return items.map(it=>{
+  const req=D.req.filter(c=>keyOf(c)===it.key),opt=D.opt.filter(c=>keyOf({...c,cat:'학생 선택'})===it.key);
+  const lec=sum(req,'lec');
+  return `<button class="trow" data-tag="${kind}" data-v="${it.key}"><div class="l"><b>${it.ko}</b><span>${it.it}</span></div><div class="r"><b>${req.length}과목${opt.length?` +${opt.length}`:''}</b>${sum(req,'ects')} ECTS${lec?` · 주 ${f1(wk(lec)/2)}h`:''}</div><span class="chev">›</span></button>`}).join('')}
+function renderTags(){
+ const cats=D.cats.map(c=>({key:c.k,ko:c.k,it:c.full}));
+ const types=Object.entries(D.types).map(([k,v])=>({key:k,ko:v.ko+' ('+k+')',it:v.it}));
+ const evs=Object.entries(D.evals).map(([k,v])=>({key:k,ko:v.ko+' ('+k+')',it:v.it}));
+ $('#s1').innerHTML=`<p class="note" style="margin-top:14px">누르면 해당 태그의 과목만 모아서 보여 줘요. 숫자는 필수 과목 수 (+선택 권장 과목 수)와 ECTS 합계이고, "주 Xh"는 필수 과목 강의시수를 2년 평균 주당 시간으로 환산한 값이에요 (${S.weeks}주 기준).</p>
+ <h3>활동 유형 <span style="font-weight:400;font-size:12.5px;color:var(--mut)">Tipologia delle attività formative</span></h3>${tagRows(cats,'cat',c=>c.cat)}
+ <h3>수업 형태 <span style="font-weight:400;font-size:12.5px;color:var(--mut)">Tipologia di insegnamento</span></h3>${tagRows(types,'type',c=>c.t)}
+ <h3>평가 방식 <span style="font-weight:400;font-size:12.5px;color:var(--mut)">Tipo di valutazione</span></h3>${tagRows(evs,'ev',c=>c.ev)}`}
+
+// ---------- 요약 탭 ----------
+function renderSum(){
+ const y1=REQ(1),y2=REQ(2);
+ const stepper=`<div class="step"><div><b>수업 주 수: ${S.weeks}주</b><br><span style="font-size:12.5px;color:var(--mut)">한 해 수업 주 수를 바꾸면 주당 시간이 다시 계산돼요</span></div><div class="btns"><button id="mn">−</button><button id="pl">+</button></div></div>`;
+ const kpi=(y,l)=>`<div><small>${y}학년 주당 강의</small><b>${f1(wk(sum(l,'lec')))}h</b><br><em>연 ${sum(l,'lec')}h · ${sum(l,'ects')} ECTS</em></div>`;
+ const rows=CATK.map(k=>{const a=y1.filter(c=>c.cat==k),b=y2.filter(c=>c.cat==k),t=sum(a,'ects')+sum(b,'ects'),o=D.orig[k];
+  return `<tr><td>${k}</td><td>${sum(a,'ects')}</td><td>${sum(b,'ects')}</td><td>${t}</td><td class="${t==o?'ok':'bad'}">${o}${t==o?' ✓':' ?'}</td></tr>`}).join('');
+ const wrows=CATK.map(k=>{const a=sum(y1.filter(c=>c.cat==k),'lec'),b=sum(y2.filter(c=>c.cat==k),'lec');
+  return `<tr><td>${k}</td><td>${a?f1(wk(a)):'–'}</td><td>${b?f1(wk(b)):'–'}</td></tr>`}).join('');
+ $('#s2').innerHTML=`${stepper}
+ <div class="kpi">${kpi(1,y1)}${kpi(2,y2)}</div>
+ <h3>주당 시간 환산</h3>
+ <table><tr><th></th><th>1학년</th><th>2학년</th></tr>
+ <tr><td>연 강의시수</td><td>${sum(y1,'lec')}h</td><td>${sum(y2,'lec')}h</td></tr>
+ <tr><td><b>주당 강의</b></td><td><b>${f1(wk(sum(y1,'lec')))}h</b></td><td><b>${f1(wk(sum(y2,'lec')))}h</b></td></tr>
+ <tr><td>연 학습시수</td><td>${sum(y1,'study')}h</td><td>${sum(y2,'study')}h</td></tr>
+ <tr><td>연 총시수</td><td>${sum(y1,'tot')}h</td><td>${sum(y2,'tot')}h</td></tr></table>
+ <p class="note">학생 선택 활동(1학년 75h, 2학년 150h)과 졸업 시험(250h)은 강의시수가 없어 주당 강의에서는 빠지고 연 총시수에만 들어가요.</p>
+ <h3>구분별 주당 강의 시간 (h)</h3>
+ <table><tr><th>구분</th><th>1학년</th><th>2학년</th></tr>${wrows}</table>
+ <h3>ECTS 요약</h3>
+ <table><tr><th>구분</th><th>1학년</th><th>2학년</th><th>합계</th><th>원문</th></tr>${rows}
+ <tr><td><b>총계</b></td><td><b>${sum(y1,'ects')}</b></td><td><b>${sum(y2,'ects')}</b></td><td><b>${sum(y1,'ects')+sum(y2,'ects')}</b></td><td class="${sum(y1,'ects')==60&&sum(y2,'ects')==60?'ok':'bad'}">${sum(y1,'ects')==60&&sum(y2,'ects')==60?'60+60 ✓':'?'}</td></tr></table>
+ <p class="note">원문 열은 원본 PDF(2026-07-30)에 적힌 구분별 합계예요.</p>`;
+ $('#mn').onclick=()=>{S.weeks=Math.max(10,S.weeks-1);save();renderSum()};
+ $('#pl').onclick=()=>{S.weeks=Math.min(40,S.weeks+1);save();renderSum()}}
+
+// ---------- 안내 탭 ----------
+function renderInfo(){
+ $('#s3').innerHTML=`<h3>수업 형태 · Tipologia di insegnamento</h3>
+ ${Object.entries(D.types).map(([k,v])=>`<div class="card"><b>${k}</b> — ${v.ko} · ${v.it}</div>`).join('')}
+ <h3>평가 방식 · Tipo di valutazione</h3>
+ ${Object.entries(D.evals).map(([k,v])=>`<div class="card"><b>${k}</b> — ${v.ko} · ${v.it}</div>`).join('')}
+ <h3>활동 유형 · Tipologia delle attività formative</h3>
+ ${D.cats.map(c=>`<div class="card"><b>${c.k}</b><div class="it">${c.full}</div></div>`).join('')}
+ <h3>계산 방식과 참고</h3>
+ <div class="card" style="font-size:14px">
+ <p style="margin:0 0 8px"><b>주당 강의 시간</b> = 강의시수(Ore di lezione) ÷ 수업 주 수. 수업 주 수는 PIMS 공식 학사일정에서 확인하지 못해 <b>2학기 × 12주 = 24주</b>로 가정한 값이고, 요약 탭에서 바꿀 수 있어요. 한 해 강의시수 기준이라 학기 단위 과목이면 실제 주당 시간은 더 커요.</p>
+ <p style="margin:0 0 8px">수업 형태 C·G·I·L과 평가 E·ID의 뜻은 PIMS 학사 안내서와 이탈리아 음악 교육 문서의 일반적 의미로 풀이한 것이고, 원본 표에는 범례가 없어요. G는 안내서에서 "그룹"으로 읽혀서 소그룹(Gruppo)으로 적었어요.</p>
+ <p style="margin:0">학년 배치와 시수·ECTS는 원본 PDF(2026-07-30, 1학년/2학년 열)와 대조했어요. 선택 권장 과목의 학년도 PDF 열 위치로 확인했어요.</p></div>`}
+
+// ---------- 이벤트 ----------
+document.addEventListener('click',e=>{
+ const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(+g.dataset.go);return}
+ const t=e.target.closest('button.tg[data-k]');
+ if(t){const k=t.dataset.k,v=t.dataset.v;S[k]=S[k]===v?null:v;renderCourses();return}
+ const c=e.target.closest('[data-clr]');
+ if(c){if(c.dataset.clr=='all')S.cat=S.type=S.ev=null;else S[c.dataset.clr]=null;renderCourses();return}
+ const r=e.target.closest('.trow');
+ if(r){S.cat=S.type=S.ev=null;S[r.dataset.tag]=r.dataset.v;S.scope='all';S.y='all';S.q='';const q=$('#q');if(q)q.value='';go(0)}
+});
+function render(){[renderCourses,renderTags,renderSum,renderInfo][S.tab]()}
+go(S.tab);
 </script>
 </body>
 </html>
